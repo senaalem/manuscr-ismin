@@ -27,7 +27,7 @@
   date: "Date"
 )
 
-/* 
+/*
  * Tables
  * Retirez celles dont vous ne vous servez pas
  */
@@ -129,7 +129,7 @@ On a ceci :
       } else {
         none
       },
-    [$n$], [0], [1], [2], [3], [4], [5], [6], [7], 
+    [$n$], [0], [1], [2], [3], [4], [5], [6], [7],
     [$F_n$], [0], [1], [1], [2], [3], [5], [8], [13],
     )
 ]
@@ -144,7 +144,7 @@ Voici un exemple pour du code en bloc :
   caption: [Fichier ],
   ```sv
   `timescale  1ns / 1ps
-  
+
   module xor_down import ascon_pack::*; (
     input  logic[255:0] data_xor_down_i,
     input  logic[1:0]   ena_xor_down_i,
@@ -163,7 +163,7 @@ Voici un exemple pour du code en bloc :
 
 == Les mathématiques
 
-Attention à bien utiliser le mode mathématique pour 
+Attention à bien utiliser le mode mathématique pour
 3x + 7/8y >= 23 deviendra $3x + 7/8y >= 23$, ce qui n'est pas du tout la même chose.
 Voici les équations de #smallcaps[Maxwell] en bloc au sein d'une figure -- pour montrer un peu ce qu'il est possible de faire :
 
