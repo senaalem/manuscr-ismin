@@ -4,14 +4,24 @@
 #let lining(it) = text(number-type: "lining", it)
 #let arcosh = math.op(limits: false, "arcosh")
 
-#let fonts-data = yaml("template/conf.yaml")
+#let conf-data = yaml("template/conf.yaml")
 
-#let body-font = fonts-data.fonts.body-font
-#let code-font = fonts-data.fonts.code-font
-#let math-font = fonts-data.fonts.math-font
-#let mono-font = fonts-data.fonts.mono-font
+#let body-font = conf-data.fonts.body-font
+#let code-font = conf-data.fonts.code-font
+#let math-font = conf-data.fonts.math-font
+#let mono-font = conf-data.fonts.mono-font
+#let sans-font = conf-data.fonts.sans-font
 
 #let mono(it) = text(font: mono-font, number-type: "lining", it)
+#let sans(it) = text(font: sans-font, it)
+
+#let main-color = conf-data.main-color
+
+#let primary-color = rgb(main-color)
+#let block-color = primary-color.lighten(90%)
+#let body-color = primary-color.lighten(80%)
+#let header-color = primary-color.lighten(65%)
+#let fill-color = primary-color.lighten(50%)
 
 // template
 #let manuscr-ismin(
@@ -21,18 +31,12 @@
   authors: (),
   date: "",
   logo: "",
-  main-color: violet-emse,
   header-title: "",
   header-middle: "",
   header-subtitle: "",
   number-style: "lining",
   body
 ) = {
-  let primary-color = main-color
-  let block-color = primary-color.lighten(90%)
-  let body-color = primary-color.lighten(80%)
-  let header-color = primary-color.lighten(65%)
-  let fill-color = primary-color.lighten(50%)
 
   let count = authors.len()
   let ncols = calc.min(count, 3)
@@ -318,4 +322,3 @@
 
   body
 }
-

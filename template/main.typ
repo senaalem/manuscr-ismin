@@ -27,7 +27,7 @@
   date: "Date"
 )
 
-/* 
+/*
  * Tables
  * Retirez celles dont vous ne vous servez pas
  */
@@ -94,7 +94,7 @@ Les tableaux (dans une figure) dans ce _template_ ressemblent à ceci :
 ] <tab1>
 
 La fond de la première ligne est plus foncé, puis on a une alternance des couleurs en descendant.
-Si on veut un tableau avec les titres "verticaux", voici le code à utiliser -- on change la fonction qui sert de paramètre à la fonction `table` :
+Si on veut un tableau avec les titres "verticaux", voici le code à utiliser -- on change la fonction qui sert paramètre `fill` à la fonction `table` :
 
 #figure(
 ```typ
@@ -113,17 +113,38 @@ Si on veut un tableau avec les titres "verticaux", voici le code à utiliser -- 
   caption: [Adapter le coloriage pour un tableau "vertical"]
 )
 
+On a ceci :
+
+#figure(caption: [Un autre tableau])[
+  #show table.cell.where(y: 0): set text(
+    style: "normal", weight: "regular"
+  )
+  #table(
+    align: center + horizon,
+    columns: 9,
+    fill: (x, y) => if x == 0 {
+      body-color
+      } else if calc.even(y) {
+        block-color
+      } else {
+        none
+      },
+    [$n$], [0], [1], [2], [3], [4], [5], [6], [7],
+    [$F_n$], [0], [1], [1], [2], [3], [5], [8], [13],
+    )
+]
 
 == Code
 
 Le code en ligne ressemble à ça ```c int main(void)``` ou à ça `par exemple` ; le fond est coloré avec une nuance du violet #smallcaps[emse].
 Voici un exemple pour du code en bloc :
 
+
 #figure(
   caption: [Fichier ],
   ```sv
   `timescale  1ns / 1ps
-  
+
   module xor_down import ascon_pack::*; (
     input  logic[255:0] data_xor_down_i,
     input  logic[1:0]   ena_xor_down_i,
@@ -142,7 +163,7 @@ Voici un exemple pour du code en bloc :
 
 == Les mathématiques
 
-Attention à bien utiliser le mode mathématique pour 
+Attention à bien utiliser le mode mathématique pour
 3x + 7/8y >= 23 deviendra $3x + 7/8y >= 23$, ce qui n'est pas du tout la même chose.
 Voici les équations de #smallcaps[Maxwell] en bloc au sein d'une figure -- pour montrer un peu ce qu'il est possible de faire :
 
@@ -204,9 +225,9 @@ On peut les faire plus espacées :
 
 Même principe pour les listes numérotées, mais avec un ```typ +``` :
 
-+ Incroyable.
-  + On peut même inclure des listes dans des listes.
-  + La technologie est folle.
++ Incroyable ;
+  + on peut même inclure des listes dans des listes,
+  + la technologie est folle.
 + Wow.
 + Impressionant.
 
@@ -223,6 +244,7 @@ D'après un autre individu (invincible également), il serait bon que tu #quote(
 == Autres
 
 Typst offre énormément d'autres possibilités, n'hésitez pas à consulter la documentation !
+Le reste du document est rempli avec du vide.
 
 = Partie 2
 
