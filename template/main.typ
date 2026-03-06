@@ -8,23 +8,21 @@
     subname: [Campus Aix-Marseille-Provence Georges Charpak],
   ),
   course: (
-    ue: "",
-    ecue: "",
+    ue: "UE",
+    ecue: "ECUE",
     name: [Unité d'enseignement],
     subname: [Élément constitutif d'une unité d'enseignement],
   ),
   authors: (
     (
-      firstname: "Auteur",
-      lastname: "1",
+      name: [Auteur #smallcaps[Premier]],
       affiliation: "Filière 1",
       year: "Année 1",
       class: "Classe 1",
       email: "auteur1@emse.fr",
     ),
     (
-      firstname: "Auteur",
-      lastname: "2",
+      name: [Auteur #smallcaps[le Second]],
       affiliation: "Filière 2",
       year: "Année 2",
       class: "Classe 2",
@@ -33,20 +31,18 @@
   ),
   mentor1: (
     role: "Encadrant",
-    firstname: "Professeur",
-    lastname: "Un",
+    name: [Professeur #smallcaps[Électronicien]],
     email: "bllll@emse.fr",
   ),
   mentor2: (
     role: "Co-encadrant",
-    firstname: "Doctorant",
-    lastname: "2",
+    name: [Doctorant #smallcaps[de Sécurité]],
     email: "pchhch@emse.fr",
   ),
   academic-year: [2025-2026],
   header: [#h(1fr) #upper[_En-tête _]],
-  logo: "assets/MSE-IMT_Hor_RVB.svg",
-  date: "01/01/2026",
+  logo: image("assets/MSE-IMT_Hor_RVB.svg", width: 7.3cm),
+  date: "01/03/26",
 )
 
 /*
@@ -146,9 +142,9 @@ On a ceci :
     align: center + horizon,
     columns: 9,
     fill: (x, y) => if x == 0 {
-      body-color
+      body-colour
     } else if calc.even(y) {
-      block-color
+      block-colour
     } else {
       none
     },

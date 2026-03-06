@@ -1,6 +1,6 @@
 // fonctions
-#let violet-emse = rgb("#5f259f")
-#let gray-emse = rgb("#5c6670")
+#let violet-emse = rgb("#5F259F")
+#let gray-emse = rgb("#5C6670")
 #let blue-imt = rgb("#00B8DE")
 #let lining(it) = text(number-type: "lining", it)
 #let arcosh = math.op(limits: false, "arcosh")
@@ -21,13 +21,15 @@
 #let mono(it) = text(font: mono-font, number-type: "lining", features: mono-options, it)
 #let sans(it) = text(font: sans-font, features: sans-options, it)
 
-#let main-color = conf-data.main-color
+#let main-colour = conf-data.main-colour
+#let other-colour = conf-data.other-colour
 
-#let primary-color = rgb(main-color)
-#let block-color = primary-color.lighten(90%)
-#let body-color = primary-color.lighten(80%)
-#let header-color = primary-color.lighten(65%)
-#let fill-color = primary-color.lighten(50%)
+#let primary-colour = rgb(main-colour)
+#let other-colour = rgb(other-colour)
+#let block-colour = primary-colour.lighten(90%)
+#let body-colour = primary-colour.lighten(80%)
+#let header-colour = primary-colour.lighten(65%)
+#let fill-colour = primary-colour.lighten(50%)
 
 // template
 #let manuscr-ismin(
@@ -39,10 +41,11 @@
   authors: (),
   mentor1: (),
   mentor2: (),
-  logo: "",
+  logo: image("template/assets/MSE-IMT_Hor_RVB.svg", width: 7.3cm),
   date: "",
   academic-year: "",
   header: "",
+  show-imt-triangle: true,
   body,
 ) = {
   let count = authors.len()
@@ -58,16 +61,16 @@
   set text(font: body-font, features: body-options)
 
   // titres
-  show heading: set text(fill: primary-color)
+  show heading: set text(fill: primary-colour)
   show heading: set block(above: 1.4em, below: 1em)
 
   // page de garde
   set page(margin: 0%)
 
-  place(left, rect(fill: violet-emse, height: 100%))
-  place(top + right, dx: 1cm, dy: -1cm, rotate(45deg, square(fill: blue-imt, height: 2cm)))
+  place(left, rect(fill: primary-colour, height: 100%))
+  if show-imt-triangle { place(top + right, dx: 1cm, dy: -1cm, rotate(45deg, square(fill: other-colour, height: 2cm))) }
 
-  place(top + right, dx: -2cm, dy: 2cm, image(logo, width: 7cm))
+  place(top + right, dx: -2cm, dy: 2cm, logo)
   v(4cm)
   align(right + horizon)[
     #box(width: 70%, height: 70%)[
@@ -89,15 +92,15 @@
 
       #box[
         #set align(left)
-        #if course.name != "" and course.subname != "" {
+        #if course.ue != "" or course.ecue != "" {
           grid(
             rows: 2,
             columns: 2,
             row-gutter: .3cm,
             column-gutter: .3cm,
             align: (x, y) => if x == 0 { right } else { left },
-            [UE :], [#course.name],
-            [ECUE :], [#course.subname],
+            [#course.ue :], [#if course.name != "" { course.name }],
+            [#course.ecue :], [#if course.subname != "" { course.subname }],
           )
         }
       ]
@@ -121,9 +124,9 @@
         columns: (1fr,) * ncols,
         row-gutter: 24pt,
         ..authors.map(author => [
-          #author.firstname #smallcaps(author.lastname) \
-          #author.affiliation \
-          #link("mailto:" + author.email, mono(author.email))
+          #author.name \
+          #if author.affiliation != "" { author.affiliation } \
+          #if author.email != "" { link("mailto:" + author.email, mono(author.email)) }
         ]),
       )
 
@@ -133,15 +136,15 @@
         row-gutter: .3cm,
         column-gutter: .3cm,
         align: (x, y) => if x == 0 { right } else { left },
-        [#mentor1.role :],
-        if mentor1.email != "" {
-          link("mailto:" + mentor1.email)[#mentor1.firstname #smallcaps(mentor1.lastname)]
-        } else [#mentor1.firstname #smallcaps(mentor1.lastname)],
+        [#if mentor1.role != "" [ #mentor1.role :]],
+        if mentor1.email != "" and mentor1.name != "" {
+          link("mailto:" + mentor1.email)[#mentor1.name]
+        } else if mentor1.name != "" [name],
 
-        [#mentor2.role :],
-        if mentor2.email != "" {
-          link("mailto:" + mentor2.email)[#mentor2.firstname #smallcaps(mentor2.lastname)]
-        } else [#mentor2.firstname #smallcaps(mentor2.lastname)],
+        [#if mentor2.role != "" [ #mentor2.role :]],
+        if mentor2.email != "" and mentor2.name != "" {
+          link("mailto:" + mentor2.email)[#mentor2.name]
+        } else if mentor2.name != "" [#mentor2.name],
 
         [], [],
         [#if academic-year != "" [Année scolaire :]], [#if academic-year != "" { academic-year }],
@@ -183,7 +186,7 @@
       let chapter = smallcaps(lower(text(
         size: 0.68em,
         tracking: 0.5pt,
-        fill: primary-color,
+        fill: primary-colour,
         current.body,
       )))
       if is-odd {
@@ -205,18 +208,18 @@
 
   // réglage des titres
   set heading(numbering: (..n) => text(number-type: "lining", numbering("1.1. ", ..n)))
-  show heading: set text(fill: primary-color)
+  show heading: set text(fill: primary-colour)
   show heading: set block(above: 1.4em, below: 1em)
 
   // l'affichage des listes
   set enum(
     indent: 1em,
-    numbering: n => [#text(fill: rgb(main-color), numbering("1.", n))],
+    numbering: n => [#text(fill: rgb(main-colour), numbering("1.", n))],
   )
 
   set list(
     indent: 1em,
-    marker: ([#text(fill: primary-color)[--]], [#text(fill: primary-color)[•]], [#text(fill: primary-color)[‣]]),
+    marker: ([#text(fill: primary-colour)[--]], [#text(fill: primary-colour)[•]], [#text(fill: primary-colour)[‣]]),
   )
 
   // réglages paragraphes
@@ -252,7 +255,7 @@
 
   // on règle l'affichage des blocs de code
   show raw.where(block: true): block.with(
-    fill: block-color,
+    fill: block-colour,
     radius: 0.5em,
     inset: 1em,
     stroke: 0.1pt,
@@ -261,7 +264,7 @@
 
   // on règle l'affichage du code en ligne
   show raw.where(block: false): box.with(
-    fill: block-color,
+    fill: block-colour,
     inset: (x: 3pt, y: 0pt),
     outset: (y: 3pt),
     radius: 3pt,
@@ -294,7 +297,7 @@
         #it#super(
           typographic: false,
           size: 0.75em,
-          text(fill: fill-color, sym.square),
+          text(fill: fill-colour, sym.square),
         )
       ]
     }
@@ -304,10 +307,10 @@
   show quote.where(block: true): it => {
     v(-5pt)
     block(
-      fill: block-color,
+      fill: block-colour,
       inset: 5pt,
       radius: 1pt,
-      stroke: (left: 3pt + fill-color),
+      stroke: (left: 3pt + fill-colour),
       width: 100%,
       outset: (left: -5pt, right: -5pt, top: 5pt, bottom: 5pt),
     )[#it]
@@ -316,11 +319,11 @@
 
   // tableaux
   show table: set table(
-    stroke: 0.6pt + primary-color,
+    stroke: 0.6pt + primary-colour,
     fill: (x, y) => if y == 0 {
-      body-color
+      body-colour
     } else if calc.even(y) {
-      block-color
+      block-colour
     } else {
       none
     },

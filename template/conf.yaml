@@ -16,4 +16,5 @@ fonts:
     options: ["case", "cpsp", "dlig"]
   
 
-main-color: "#572A86"
+main-colour: "#572A86"
+other-colour: "#00B8DE"
