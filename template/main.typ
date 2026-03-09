@@ -1,30 +1,45 @@
 #import "../template.typ": *
 
 #show: manuscr-ismin.with(
-  uptitle: [surtitre],
   title: [Titre],
   subtitle: [Sous-titre],
+  school: (
+    name: [École nationale supérieure des mines de Saint-Étienne],
+    subname: [Campus Aix-Marseille-Provence Georges Charpak],
+  ),
+  course: (
+    ue: "UE",
+    ecue: "ECUE",
+    name: [Unité d'enseignement],
+    subname: [Élément constitutif d'une unité d'enseignement],
+  ),
   authors: (
     (
-      name: "Auteur 1",
+      name: [Auteur #smallcaps[Premier]],
       affiliation: "Filière 1",
-      year: "Année 1",
-      class: "Classe 1",
-      email: "auteur1@emse.fr"
+      email: "auteur1@emse.fr",
     ),
     (
-      name: "Auteur 2",
+      name: [Auteur #smallcaps[le Second]],
       affiliation: "Filière 2",
-      year: "Année 2",
-      class: "Classe 2",
-      email: "auteur2@emse.fr"
-    )
+      email: "auteur2@emse.fr",
+    ),
   ),
-  logo: "assets/logo_emse_white.svg",
-  header-title: "En-tête 1",
-  header-subtitle: "En-tête 3",
-  header-middle: [En-tête 2],
-  date: "Date"
+  mentor1: (
+    role: "Encadrant",
+    name: [Professeur #smallcaps[Électronicien]],
+    email: "bllll@emse.fr",
+  ),
+  mentor2: (
+    role: "Co-encadrant",
+    name: [Doctorant #smallcaps[de Sécurité]],
+    email: "pchhch@emse.fr",
+  ),
+  academic-year: [2025-2026],
+  header: [#h(1fr) #upper[_En-tête _]],
+  logo: image("assets/MSE-IMT_Hor_RVB.svg", width: 7.3cm),
+  date: "01/03/26",
+  latex-look: false,
 )
 
 /*
@@ -71,7 +86,7 @@ Pour générer des titres de différents niveaux :
 
   == Second titre de niveau 1
   ```,
-  caption: [Génération des titres]
+  caption: [Génération des titres],
 )
 
 Les titres servent à générer une table des matières et à segmenter le document.
@@ -81,15 +96,15 @@ Les titres servent à générer une table des matières et à segmenter le docum
 Les tableaux (dans une figure) dans ce _template_ ressemblent à ceci :
 
 #figure(caption: [Un tableau])[
-#table(
-  align: center + horizon,
-  columns: 2,
-  table.header([#align(center)[*Chiffres*]], [#align(center)[*Lettres*]]),
-  [0], [A],
-  [1], [B],
-  [2], [#sym.Gamma],
-  [3], [#sym.Delta],
-  [4], [#sym.Epsilon]
+  #table(
+    align: center + horizon,
+    columns: 2,
+    table.header([#align(center)[*Chiffres*]], [#align(center)[*Lettres*]]),
+    [0], [A],
+    [1], [B],
+    [2], [#sym.Gamma],
+    [3], [#sym.Delta],
+    [4], [#sym.Epsilon],
   )
 ] <tab1>
 
@@ -97,7 +112,7 @@ La fond de la première ligne est plus foncé, puis on a une alternance des coul
 Si on veut un tableau avec les titres "verticaux", voici le code à utiliser -- on change la fonction qui sert paramètre `fill` à la fonction `table` :
 
 #figure(
-```typ
+  ```typ
   #table(
     fill: (x, y) => if x == 0 {
       body-color
@@ -110,28 +125,29 @@ Si on veut un tableau avec les titres "verticaux", voici le code à utiliser -- 
     [Contenu], [Contenu], [...]
   )
   ```,
-  caption: [Adapter le coloriage pour un tableau "vertical"]
+  caption: [Adapter le coloriage pour un tableau "vertical"],
 )
 
 On a ceci :
 
 #figure(caption: [Un autre tableau])[
   #show table.cell.where(y: 0): set text(
-    style: "normal", weight: "regular"
+    style: "normal",
+    weight: "regular",
   )
   #table(
     align: center + horizon,
     columns: 9,
     fill: (x, y) => if x == 0 {
-      body-color
-      } else if calc.even(y) {
-        block-color
-      } else {
-        none
-      },
+      violet-emse.lighten(80%)
+    } else if calc.even(y) {
+      violet-emse.lighten(90%)
+    } else {
+      none
+    },
     [$n$], [0], [1], [2], [3], [4], [5], [6], [7],
     [$F_n$], [0], [1], [1], [2], [3], [5], [8], [13],
-    )
+  )
 ]
 
 == Code
@@ -158,7 +174,7 @@ Voici un exemple pour du code en bloc :
     assign state_o[3] = (ena_xor_down_i)? state_i[3] ^ data_xor_down_i[127: 64]: state_i[3];
     assign state_o[4] = (ena_xor_down_i)? state_i[4] ^ data_xor_down_i[ 63:  0]: state_i[4];
   endmodule: xor_down
-  ```
+  ```,
 )
 
 == Les mathématiques
@@ -169,14 +185,14 @@ Voici les équations de #smallcaps[Maxwell] en bloc au sein d'une figure -- pour
 
 #figure(
   caption: [Équations de #smallcaps[Maxwell]],
-  kind: "equation"
+  kind: "equation",
 )[
-$
-op("div")(arrow(E)) &= rho / epsilon_0  \
-arrow(op("rot"))(arrow(E)) &= - (partial arrow(B)) / (partial t) \
-op("div")(arrow(B)) &= 0 \
-arrow(op("rot"))(arrow(B)) &= mu_0 arrow(j) + mu_0 epsilon_0 (partial arrow(E)) / (partial t)
-$
+  $
+           op("div")(arrow(E)) & = rho / epsilon_0 \
+    arrow(op("rot"))(arrow(E)) & = - (partial arrow(B)) / (partial t) \
+           op("div")(arrow(B)) & = 0 \
+    arrow(op("rot"))(arrow(B)) & = mu_0 arrow(j) + mu_0 epsilon_0 (partial arrow(E)) / (partial t)
+  $
 ]
 
 L'équation de #smallcaps[Maxwell] préférée de mon amie est celle dite de #smallcaps[Maxwell-Faraday] (locale) obtenue grâce au théorème de #smallcaps[Stokes] : $integral.cont_C arrow(E) dif arrow(cal(l)) = - dif / (dif t) (integral_S arrow(B) dif arrow(S))$.
@@ -193,7 +209,7 @@ Les figures permettent de centrer le contenu et d'ajouter sous-titres et référ
 Pour une figure avec une image ou une équation, la légende est en bas, mais pour les tableaux et les listages elle est en haut.
 Voici une image tirée de #link("https://x.com/chatmignon__")[Twitter] (j'ai fait un lien vers Twitter) :
 #figure(caption: [Toto apprend à Tigre comment coder en C++])[
-#image("images/toto_tigre.jpg", height: 7cm)
+  #image("images/toto_tigre.jpg", height: 7cm)
 ]
 
 == Les liens
@@ -234,9 +250,9 @@ Même principe pour les listes numérotées, mais avec un ```typ +``` :
 == Les citations
 
 #quote(block: true, attribution: [Lews Therin Thelamon @wot_8])[
-Moi, je n’ai jamais été vaincu !
-Je suis le Seigneur du Matin.
-Personne ne peut me battre.
+  Moi, je n’ai jamais été vaincu !
+  Je suis le Seigneur du Matin.
+  Personne ne peut me battre.
 ]
 
 D'après un autre individu (invincible également), il serait bon que tu #quote(attribution: <sam_2>)[adopte un chien].
