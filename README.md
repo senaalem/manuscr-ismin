@@ -54,7 +54,8 @@ Ci-suit une description de ses paramètres :
 - `show-imt-triangle` : booléen pour afficher ou non le triangle décoratif IMT sur la page de garde (par défaut `true`),
 - `latex-look` : booléen pour utiliser les polices _Computer Modern_ à la place des polices par défaut, pour un rendu proche de LaTeX (par défaut `false`),
 - `main-colour` : la couleur principale du document ; par défaut, le violet EMSE (`violet-emse`),
-- `other-colour` : la couleur secondaire du document, utilisée notamment pour le triangle décoratif ; par défaut, le bleu IMT (`blue-imt`).
+- `other-colour` : la couleur secondaire du document, utilisée notamment pour le triangle décoratif ; par défaut, le bleu IMT (`blue-imt`),
+- `lang`: la langue du texte, peut être `"fr"` ou `"en"` (ne pas oublier de changer les titres des différentes tables).
 
 ### Les fonctions et couleurs
 
@@ -63,5 +64,4 @@ Ci-suit une description de ses paramètres :
 - `blue-imt` : la couleur bleue de l'IMT,
 
 - `lining` : pour avoir des chiffres en style classique (_lining_) localement ; les chiffres elzéviriens s'intègrent bien au texte minuscule, mais mal à celui en majuscules.
-	Par exemple, `#lining[STM32L436RG]` est bien plus élégant que `STM32L476RG`,
 - `arcosh` : la fonction arc cosinus hyperbolique pour le mode mathématique.

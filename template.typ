@@ -23,6 +23,7 @@
   latex-look: false,
   main-colour: violet-emse,
   other-colour: blue-imt,
+  lang: "fr",
   body,
 ) = {
   let primary-colour = main-colour
@@ -37,7 +38,7 @@
 
   set document(title: title)
 
-  set text(lang: "fr")
+  set text(lang: lang)
 
   set page(margin: 1.75in)
 
@@ -103,8 +104,19 @@
             row-gutter: .3cm,
             column-gutter: .3cm,
             align: (x, y) => if x == 0 { right } else { left },
-            [#course.ue :], [#if course.name != "" { course.name }],
-            [#course.ecue :], [#if course.subname != "" { course.subname }],
+            [#if lang == "fr" [
+              #course.ue :
+            ] else if lang == "en" [
+              #course.ue:
+            ]],
+            [#if course.name != "" { course.name }],
+
+            [#if lang == "fr" [
+              #course.ecue :
+            ] else if lang == "en" [
+              #course.ecue:
+            ]],
+            [#if course.subname != "" { course.subname }],
           )
         }
       ]
@@ -140,19 +152,46 @@
         row-gutter: .3cm,
         column-gutter: .3cm,
         align: (x, y) => if x == 0 { right } else { left },
-        [#if mentor1.role != "" [ #mentor1.role :]],
+        [#if mentor1.role != "" [
+          #if lang == "fr" [
+            #mentor1.role :
+          ] else if lang == "en" [
+            #mentor1.role:
+          ]
+        ]],
         if mentor1.email != "" and mentor1.name != "" {
           link("mailto:" + mentor1.email)[#mentor1.name]
         } else if mentor1.name != "" [name],
 
-        [#if mentor2.role != "" [ #mentor2.role :]],
+        [#if mentor2.role != "" [
+          #if lang == "fr" [
+            #mentor2.role :
+          ] else if lang == "en" [
+            #mentor2.role:
+          ]
+        ]],
         if mentor2.email != "" and mentor2.name != "" {
           link("mailto:" + mentor2.email)[#mentor2.name]
         } else if mentor2.name != "" [#mentor2.name],
 
         [], [],
-        [#if academic-year != "" [Année scolaire :]], [#if academic-year != "" { academic-year }],
-        [#if date != "" [Date :]], [#if date != "" { date }],
+        [#if academic-year != "" [
+          #if lang == "fr" [
+            Année scolaire :
+          ] else if lang == "en" [
+            School year:
+          ]
+        ]],
+        [#if academic-year != "" { academic-year }],
+
+        [#if date != "" [
+          #if lang == "fr" [
+            Date :
+          ] else if lang == "en" [
+            Date:
+          ]
+        ]],
+        [#if date != "" { date }],
       )
     ]
     #h(2cm)
@@ -211,7 +250,9 @@
   ])
 
   // réglage des titres
-  set heading(numbering: (..n) => text(number-type: "lining", numbering("1.1. ", ..n)))
+  set heading(numbering: (..n) => text(number-type: "lining", if lang == "fr" { numbering("1.1. ", ..n) } else {
+    numbering("1.1 ", ..n)
+  }))
   show heading: set text(fill: primary-colour)
   show heading: set block(above: 1.4em, below: 1em)
 
@@ -223,19 +264,23 @@
 
   set list(
     indent: 1em,
-    marker: ([#text(fill: primary-colour)[--]], [#text(fill: primary-colour)[•]], [#text(fill: primary-colour)[‣]]),
+    marker: if lang == "fr" {
+      ([#text(fill: primary-colour)[--]], [#text(fill: primary-colour)[•]], [#text(fill: primary-colour)[‣]])
+    } else if lang == "en" {
+      ([#text(fill: primary-colour)[•]], [#text(fill: primary-colour)[--]], [#text(fill: primary-colour)[‣]])
+    },
   )
 
   // réglages paragraphes
   set par(
     leading: 0.55em,
     spacing: 1em,
-    first-line-indent: (all: true, amount: 1.8em),
+    first-line-indent: (all: false, amount: 1.8em),
     justify: true,
   )
 
   // le séparateur dans la légende des figures
-  set figure.caption(separator: [ : ])
+  set figure.caption(separator: if lang == "fr" [ : ] else if lang == "en" [: ])
 
   show figure.caption: it => [
     #smallcaps[
@@ -285,11 +330,15 @@
 
   // on règle l'affichage des blocs d'équation
   show math.equation: it => {
-    show regex("\d+\.\d+"): it => {
-      show ".": { "," + h(0pt) }
+    if lang == "fr" {
+      show regex("\d+\.\d+"): it => {
+        show ".": { "," + h(0pt) }
+        it
+      }
+      it
+    } else {
       it
     }
-    it
   } // permet d'utiliser les virgules comme séparateur décimal
 
   // on règle l'affichage des liens

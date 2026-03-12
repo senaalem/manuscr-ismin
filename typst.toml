@@ -1,6 +1,6 @@
 [package]
 name = "manuscr-ismin"
-version = "0.3.0"
+version = "0.3.1"
 entrypoint = "template.typ"
 authors = ["Bilel Betka"]
 license = "MIT"
